@@ -1,17 +1,9 @@
+from flask.json import jsonify
+import requests as reqs
 
+class GlobalWarning(object):
+    def __init__(self, baseUrl):
+        self.baseUrl = baseUrl
 
-class GlobalWarning:
-    def __init__(self) -> None:
-        pass
-
-    def co2(self):
-        pass
-
-    def nitrousOxide(self):
-        pass
-
-    def methane(self):
-        pass
-    
-    def arctic(self):
-        pass
+    def getAll(self, params=""):
+        return jsonify(reqs.get(url=self.baseUrl, params=params).json())
