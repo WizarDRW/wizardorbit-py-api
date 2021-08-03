@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_restful import reqparse, abort, Api, Resource
-import routers.globalwarning
+import main.routers.globalwarning
 # from controllers.note import *
 
 app = Flask(__name__)
