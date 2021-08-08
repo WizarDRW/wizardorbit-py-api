@@ -19,7 +19,12 @@ class GlobalWarningDto:
 
 class ChapterDto:
     api = Namespace('chapter', description='')
-    chapter = api.model('chapter', {
-        '_id': fields.String(required=True, description=''),
-        'impressions': fields.Nested(fields.String, description='', required=True)
+    chapter = api.model('chapters', {
+        'chapters': fields.List(fields.Nested(api.model('chapter', {
+            '_id': fields.String(required=True, description=''),
+            'impressions': fields.List(fields.Nested(api.model('impression', {
+                "ip": fields.String(required=True),
+                "count": fields.Integer(required=True)
+            })))
+        })))
     })
