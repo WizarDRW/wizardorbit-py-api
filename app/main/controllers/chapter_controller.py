@@ -9,7 +9,8 @@ from ..utils.dto import ChapterDto
 api = ChapterDto.api
 _chapter = ChapterDto.chapter
 
-@api.route('/', methods=['POST'])
+
+@api.route('/')
 class ChapterStatistics(Resource):
     @api.doc("chapter statistics")
     @api.expect(_chapter, validate=True)
@@ -17,6 +18,13 @@ class ChapterStatistics(Resource):
     def post(self, params=""):
         """Post and statistics"""
         data = request.json['chapters']
-        dt = pd.Series(data)
-        print(request)
-        return dt.size
+        for item in data:
+            series = pd.Series(item['impressions'])
+            result = self.content_len(series)
+            item['imp_len'] = result
+            res_std = np.std([s['count'] for s in series])
+            item['imp_std'] = res_std
+        return data
+
+    def content_len(self, content):
+        return pd.Series(content).size

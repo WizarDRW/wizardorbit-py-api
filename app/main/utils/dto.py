@@ -1,5 +1,4 @@
 from flask_restplus import Namespace, fields
-from sqlalchemy.ext.declarative import api
 
 
 class UserDto:
