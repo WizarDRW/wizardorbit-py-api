@@ -1,3 +1,4 @@
+from logging import log
 from flask.json import jsonify
 from flask import request
 from flask_restplus import Resource
@@ -20,11 +21,13 @@ class ChapterStatistics(Resource):
         data = request.json['chapters']
         for item in data:
             series = pd.Series(item['impressions'])
-            result = self.content_len(series)
-            item['imp_len'] = result
-            res_std = np.std([s['count'] for s in series])
-            item['imp_std'] = res_std
-        return data
+            item['imp_len'] = self.content_len(series)
+            item['imp_std'] = np.std([s['count'] for s in series])
+        result = sorted(data,key=lambda x: x['imp_std'])[:request.json['limit']]
+        return jsonify(result)
 
     def content_len(self, content):
         return pd.Series(content).size
+
+    def content_std(self, series):
+        pass 

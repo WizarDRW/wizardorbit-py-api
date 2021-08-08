@@ -1,3 +1,4 @@
+from flask.globals import request
 from flask_restplus import Namespace, fields
 
 
@@ -25,5 +26,6 @@ class ChapterDto:
                 "ip": fields.String(required=True),
                 "count": fields.Integer(required=True)
             })))
-        })))
+        }))),
+        'limit': fields.Integer(required=True)
     })
