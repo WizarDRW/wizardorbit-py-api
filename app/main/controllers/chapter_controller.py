@@ -22,12 +22,14 @@ class ChapterStatistics(Resource):
         for item in data:
             series = pd.Series(item['impressions'])
             item['imp_len'] = self.content_len(series)
-            item['imp_std'] = np.std([s['count'] for s in series])
-        result = sorted(data,key=lambda x: x['imp_std'])[:request.json['limit']]
+            item['imp_mean'] = np.mean([s['count'] for s in series])
+            item['imp_std'] = self.content_std(series)
+            item['point'] = item['imp_len'] - item['imp_std'] + item['imp_mean']
+        result = sorted(data,key=lambda x: x['point'], reverse=True)[:request.json['limit']]
         return jsonify(result)
 
     def content_len(self, content):
         return pd.Series(content).size
 
     def content_std(self, series):
-        pass 
+        return np.std([s['count'] for s in series]) 
