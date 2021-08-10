@@ -5,20 +5,20 @@ from flask_restplus import Resource
 import pandas as pd
 import numpy as np
 
-from ..utils.dto import ChapterDto
+from ..utils.dto import InfoContentDto
 
-api = ChapterDto.api
-_chapter = ChapterDto.chapter
+api = InfoContentDto.api
+_chapter = InfoContentDto.info_content
 
 
 @api.route('/')
-class ChapterStatistics(Resource):
+class InfoContentStatistics(Resource):
     @api.doc("chapter statistics")
     @api.expect(_chapter, validate=True)
     @api.response(200, '')
     def post(self, params=""):
         """Post and statistics"""
-        data = request.json['chapters']
+        data = request.json['contents']
         for item in data:
             series = pd.Series(item['impressions'])
             item['imp_len'] = self.content_len(series)

@@ -14,13 +14,12 @@ class UserDto:
 
 class GlobalWarningDto:
     api = Namespace('global-warning', description='')
-    globalwarning = api.model('global', {})
 
 
-class ChapterDto:
-    api = Namespace('chapter', description='')
-    chapter = api.model('chapters', {
-        'chapters': fields.List(fields.Nested(api.model('chapter', {
+class InfoContentDto:
+    api = Namespace('infocontent', description='')
+    info_content = api.model('infocontents', {
+        'contents': fields.List(fields.Nested(api.model('content', {
             '_id': fields.String(required=True, description=''),
             'impressions': fields.List(fields.Nested(api.model('impression', {
                 "ip": fields.String(required=True),
