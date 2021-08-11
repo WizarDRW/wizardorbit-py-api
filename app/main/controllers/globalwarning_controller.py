@@ -1,6 +1,4 @@
-from flask.globals import request
 from flask.json import jsonify
-from flask import request as rq
 from flask_restplus import Resource
 import requests as reqs
 
@@ -15,13 +13,29 @@ class GlobalWarning(Resource):
     def get(self, warn="co2"):
         """List all registered users"""
         if warn == 'co2':
-            return jsonify(reqs.get(url='https://global-warming.org/api/co2-api').json()['co2'])
+            return self.co2()
         elif warn == 'mt':
-            return jsonify(reqs.get(url='https://global-warming.org/api/methane-api').json()['methane'])
+            return self.methane()
         elif warn == 'tm':
-            return jsonify(reqs.get(url='https://global-warming.org/api/temperature-api').json()['temperature'])
+            return self.temperature()
         elif warn == 'no':
-            return jsonify(reqs.get(url='https://global-warming.org/api/nitrous-oxide-api').json()['nitrous'])
+            return self.nitrous()
         elif warn == 'ar':
-            return jsonify(reqs.get(url='https://global-warming.org/api/arctic-api').json()['arctic'])
+            return self.arctic()
         return False
+
+    @staticmethod
+    def co2():
+        return jsonify(reqs.get(url='https://global-warming.org/api/co2-api').json()['co2'])
+    @staticmethod
+    def methane():
+        return jsonify(reqs.get(url='https://global-warming.org/api/methane-api').json()['methane'])
+    @staticmethod
+    def temperature():
+        return jsonify(reqs.get(url='https://global-warming.org/api/temperature-api').json()['temperature'])
+    @staticmethod
+    def nitrous():
+        return jsonify(reqs.get(url='https://global-warming.org/api/nitrous-oxide-api').json()['nitrous'])
+    @staticmethod
+    def arctic():
+        return jsonify(reqs.get(url='https://global-warming.org/api/arctic-api').json()['arctic'])
